@@ -148,14 +148,21 @@ function App() {
               <Separator />
               <div className="flex py-4 gap-4">
                 <Button
-                  onClick={() => (window.location.href = "/")}
+                  onClick={() =>
+                    window.open(
+                      "https://zacharyuhc.fr/projects/probin.html",
+                      "_blank"
+                    )
+                  }
                   className="w-full"
                   variant="secondary"
                 >
                   About Probin
                 </Button>
                 <Button
-                  onClick={() => (window.location.href = "/")}
+                  onClick={() =>
+                    window.open("https://github.com/Sn1ppr/Probin", "_blank")
+                  }
                   variant="secondary"
                 >
                   <FontAwesomeIcon icon={faGithub} />
