@@ -1,0 +1,27 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: 0 0;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border-style: solid;
+  border-color: transparent;
+  background: #e3e3e3;
+}
+
+/* ACE EDITOR */
+.ace_hidden-cursors, .ace_scroller.ace_scroll-left:after {
+  display: none !important;
+}
+.ace_layer, .ace_print-margin, .ace_active-line, .ace_gutter-cell, .ace_gutter-active-line, .ace_gutter-layer, .ace_folding-enabled, .ace_gutter {
+  background-color: #ffffff00 !important;
+}
