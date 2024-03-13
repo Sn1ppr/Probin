@@ -14,8 +14,7 @@ import { Button } from "@/components/ui/button";
 // React Ace
 import AceEditor from "react-ace";
 import { config } from "ace-builds";
-config.setModuleUrl("basePath", '/node_modules/ace-builds/src-min-noconflict');
-
+config.setModuleUrl("basePath", "/node_modules/ace-builds/src-min-noconflict");
 
 // Supabase
 import { supabase } from "../supabase/supabaseClient";
@@ -28,25 +27,64 @@ function SettingsPaste() {
     localStorage.getItem("syntax") ?? "private"
   );
   const [title, setTitle] = useState("Untitled Paste");
+  const [password, setPassword] = useState("");
+  const [aceValue, setAceValue] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    alert(title + "\n" + syntax + "\n" + visibility);
+    const content = aceValue;
+    const id = Math.random().toString(36).substr(2, 8);
+
+    // Insérer les données dans la table "pastes"
+    const { data, error } = await supabase.from("pastes").insert([
+      {
+        id,
+        title,
+        syntax,
+        visibility,
+        content,
+        password,
+        timestamp: new Date().toLocaleString("fr-FR", {
+          timeZone: "Europe/Paris",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+      },
+    ]);
+
+    if (error) {
+      console.log("Erreur lors de l'insertion des données:", error.message);
+    } else {
+      window.location.href = `/${id}`;
+      console.log("Données insérées avec succès:");
+      setTitle("Untitled Paste");
+      setSyntax("");
+      setVisibility("");
+      setPassword("");
+      setAceValue("");
+    }
+  };
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+  const handleAceChange = (value: string) => {
+    setAceValue(value);
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex w-full">
-      <Card className="w-[350px]" style={{ maxHeight: "244px" }}>
+      <Card className="w-[350px]" style={{ height: "-webkit-fill-available" }}>
         <CardContent>
           <div className="grid w-full items-center gap-4 pt-6">
             <div className="flex flex-col space-y-1.5">
               <Input
-                className="focus-visible:ring-0"
-                id="title"
+                name="title"
                 placeholder="Untitled Paste"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setTitle(event.target.value)
-                }
+                onChange={handleTitleChange}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -54,7 +92,7 @@ function SettingsPaste() {
                 defaultValue={syntax}
                 onValueChange={(value: string) => setSyntax(value)}
               >
-                <SelectTrigger id="syntax" className="focus-visible:ring-0">
+                <SelectTrigger name="syntax">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent position="popper">
@@ -74,7 +112,7 @@ function SettingsPaste() {
                 defaultValue={visibility}
                 onValueChange={(value: string) => setVisibility(value)}
               >
-                <SelectTrigger id="visibility" className="focus-visible:ring-0">
+                <SelectTrigger name="visibility">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent position="popper">
@@ -84,10 +122,21 @@ function SettingsPaste() {
                 </SelectContent>
               </Select>
             </div>
+            {visibility === "password" && (
+              <div className="flex flex-col space-y-1.5">
+                <Input
+                  name="password"
+                  placeholder="Password"
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setPassword(event.target.value)
+                  }
+                />
+              </div>
+            )}
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button className="w-full">
+          <Button type="submit" className="w-full">
             Paste
             <FontAwesomeIcon className="ml-1.5 mt-0.5" icon={faChevronRight} />
           </Button>
@@ -99,9 +148,10 @@ function SettingsPaste() {
           <AceEditor
             className="mt-3 mb-2 pr-1"
             height="75lvh"
-            value={""}
+            value={aceValue}
+            onChange={handleAceChange}
             width="100%"
-            highlightActiveLine={true}
+            highlightActiveLine={false}
             setOptions={{
               showLineNumbers: true,
             }}
