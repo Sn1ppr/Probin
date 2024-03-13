@@ -113,13 +113,13 @@ function SettingsPaste() {
                 </SelectTrigger>
                 <SelectContent position="popper">
                   <SelectItem value="no">No Syntax</SelectItem>
-                  <SelectItem value="html">HTML</SelectItem>
-                  <SelectItem value="css">CSS</SelectItem>
-                  <SelectItem value="javascript">Javascript</SelectItem>
-                  <SelectItem value="xml">XML</SelectItem>
-                  <SelectItem value="sql">SQL</SelectItem>
-                  <SelectItem value="php">PHP</SelectItem>
-                  <SelectItem value="python">Python</SelectItem>
+                  <SelectItem value="HTML">HTML</SelectItem>
+                  <SelectItem value="CSS">CSS</SelectItem>
+                  <SelectItem value="Javascript">Javascript</SelectItem>
+                  <SelectItem value="XML">XML</SelectItem>
+                  <SelectItem value="SQL">SQL</SelectItem>
+                  <SelectItem value="PHP">PHP</SelectItem>
+                  <SelectItem value="Python">Python</SelectItem>
                 </SelectContent>
               </Select>
             </div>
