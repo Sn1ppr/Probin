@@ -1,5 +1,6 @@
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+
+// Components
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
@@ -9,12 +10,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+
+// Font Awesome
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 // React Ace
 import AceEditor from "react-ace";
 import { config } from "ace-builds";
 config.setModuleUrl("basePath", "/node_modules/ace-builds/src-min-noconflict");
+
+// Toast
+import { toast } from "sonner";
 
 // Supabase
 import { supabase } from "../supabase/supabaseClient";
@@ -36,7 +44,7 @@ function SettingsPaste() {
     const id = Math.random().toString(36).substr(2, 8);
 
     // Insérer les données dans la table "pastes"
-    const { data, error } = await supabase.from("pastes").insert([
+    const { error } = await supabase.from("pastes").insert([
       {
         id,
         title,
@@ -57,6 +65,14 @@ function SettingsPaste() {
     ]);
 
     if (error) {
+      toast("Settings Updated", {
+        description: "Your settings have been updated",
+        action: {
+          label: "close",
+          onClick: () => console.log("Undo"),
+        },
+      });
+  
       console.log("Erreur lors de l'insertion des données:", error.message);
     } else {
       window.location.href = `/${id}`;

@@ -23,6 +23,9 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 
+import SettingsPaste from "./components/SettingsPaste";
+import ViewPaste from "./components/ViewPaste";
+
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -31,9 +34,6 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 // Toast
 import { toast } from "sonner";
-
-import SettingsPaste from "./components/SettingsPaste";
-import ViewPaste from "./components/ViewPaste";
 
 function App() {
   const [visibility, setVisibility] = useState(
