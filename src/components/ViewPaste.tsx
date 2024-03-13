@@ -1,10 +1,28 @@
+import { useState, useEffect } from "react";
+
+// Components
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+// Font Awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 // React Ace
 import AceEditor from "react-ace";
+
 // Supabase
 import { supabase } from "../supabase/supabaseClient";
 
@@ -43,12 +61,12 @@ function ViewPaste() {
   }, [pasteId]);
   return (
     <>
-      <Card className="w-[350px]" style={{ maxHeight: "244px" }}>
+      <Card className="w-[350px]" style={{ height: "-webkit-fill-available" }}>
         <CardContent>
           <div className="grid w-full items-center gap-4 pt-6">
             <div className="flex flex-col space-y-1.5">
+              <Label>Title</Label>
               <Input
-                className="focus-visible:ring-0"
                 id="title"
                 value={
                   pastes
@@ -61,10 +79,98 @@ function ViewPaste() {
               />
             </div>
           </div>
+          <div className="grid w-full items-center gap-4 pt-6">
+            <Dialog>
+              <DialogTrigger>
+                <Button className="w-full">More Info</Button>
+              </DialogTrigger>
+              <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
+                <DialogHeader>
+                  <DialogTitle>Paste Info</DialogTitle>
+                  <DialogDescription>
+                    You can find all the information on the current paste below.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex flex-col space-y-1.5">
+                  <Label>ID</Label>
+                  <Input
+                    className="capitalize"
+                    id="title"
+                    value={
+                      pastes
+                        ? pastes
+                            .map((paste: { id: string }) => paste.id)
+                            .join("\n")
+                        : ""
+                    }
+                    readOnly
+                  />
+                </div>
+
+                <div className="flex flex-col space-y-1.5">
+                  <Label>Syntax</Label>
+                  <Input
+                    className="capitalize"
+                    id="title"
+                    value={
+                      pastes
+                        ? pastes
+                            .map((paste: { syntax: string }) =>
+                              paste.syntax === "no" ? "No Syntax" : paste.syntax
+                            )
+                            .join("\n")
+                        : ""
+                    }
+                    readOnly
+                  />
+                </div>
+                <div className="flex flex-col space-y-1.5">
+                  <Label>Visibility</Label>
+                  <Input
+                    className="capitalize"
+                    id="title"
+                    value={
+                      pastes
+                        ? pastes
+                            .map(
+                              (paste: { visibility: string }) =>
+                                paste.visibility
+                            )
+                            .join("\n")
+                        : ""
+                    }
+                    readOnly
+                  />
+                </div>
+                <div className="flex flex-col space-y-1.5">
+                  <Label>Time (UTC+1)</Label>
+                  <Input
+                    className="capitalize"
+                    id="title"
+                    value={
+                      pastes
+                        ? pastes
+                            .map(
+                              (paste: { timestamp: string }) => paste.timestamp
+                            )
+                            .join("\n")
+                        : ""
+                    }
+                    readOnly
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+          <Separator className="mt-3" />
         </CardContent>
         <CardFooter className="flex justify-between gap-2">
-          <Button className="w-full">Copy</Button>
-          <Button className="w-full">Download</Button>
+          <Button variant={"secondary"} className="w-full">
+            <FontAwesomeIcon icon={faCopy} />
+          </Button>
+          <Button variant={"secondary"} className="w-full">
+            <FontAwesomeIcon icon={faDownload} />
+          </Button>
         </CardFooter>
       </Card>
       <Card className="ml-6 w-full">
@@ -80,7 +186,7 @@ function ViewPaste() {
                 : ""
             }
             width="100%"
-            highlightActiveLine={true}
+            highlightActiveLine={false}
             setOptions={{
               showLineNumbers: true,
               readOnly: true,
