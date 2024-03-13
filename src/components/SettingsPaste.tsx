@@ -13,8 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 
 // Font Awesome
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 // React Ace
 import AceEditor from "react-ace";
