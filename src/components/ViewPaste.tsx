@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/sonner";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +21,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
+// Toast
+import { toast } from "sonner";
+
 // React Ace
 import AceEditor from "react-ace";
 
@@ -29,6 +33,7 @@ import { supabase } from "../supabase/supabaseClient";
 function ViewPaste() {
   const [pastes, setPastes] = useState<any[] | null>(null);
   const [pasteId, setPasteId] = useState<string>("");
+  const [, setCopied] = useState(false);
 
   useEffect(() => {
     const url = window.location.href;
@@ -59,8 +64,27 @@ function ViewPaste() {
       fetchData();
     }
   }, [pasteId]);
+
+  const handleCopyClick = () => {
+    const textToCopy =
+      "https://probin.xyz/" +
+      (pastes ? pastes.map((paste) => paste.id).join("\n") : "");
+    navigator.clipboard.writeText(textToCopy);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+    toast("Link copied !", {
+      description: "The link has been copied to the clipboard",
+    });
+  };
   return (
     <>
+      <Toaster
+        toastOptions={{
+          className: "text-left z-50",
+        }}
+      />
       <Card className="w-[350px]" style={{ height: "-webkit-fill-available" }}>
         <CardContent>
           <div className="grid w-full items-center gap-4 pt-6">
@@ -94,7 +118,6 @@ function ViewPaste() {
                 <div className="flex flex-col space-y-1.5">
                   <Label>ID</Label>
                   <Input
-                    className="capitalize"
                     id="title"
                     value={
                       pastes
@@ -106,7 +129,6 @@ function ViewPaste() {
                     readOnly
                   />
                 </div>
-
                 <div className="flex flex-col space-y-1.5">
                   <Label>Syntax</Label>
                   <Input
@@ -158,6 +180,31 @@ function ViewPaste() {
                     }
                     readOnly
                   />
+                </div>
+                <div className="flex flex-col space-y-1.5">
+                  <Label>Link</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="title"
+                      value={
+                        "https://probin.xyz/" +
+                        (pastes
+                          ? pastes
+                              .map((paste: { id: string }) => paste.id)
+                              .join("\n")
+                          : "")
+                      }
+                      readOnly
+                    />
+                    <Button
+                      onClick={handleCopyClick}
+                      size="sm"
+                      className="px-3"
+                    >
+                      <span className="sr-only">Copy</span>
+                      <FontAwesomeIcon className="h-4 w-4" icon={faCopy} />
+                    </Button>
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>
