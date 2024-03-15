@@ -37,10 +37,10 @@ import { toast } from "sonner";
 
 function App() {
   const [visibility, setVisibility] = useState(
-    localStorage.getItem("visibility") ?? "no"
+    localStorage.getItem("visibility") ?? "private"
   );
   const [syntax, setSyntax] = useState(
-    localStorage.getItem("syntax") ?? "private"
+    localStorage.getItem("syntax") ?? "no"
   );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

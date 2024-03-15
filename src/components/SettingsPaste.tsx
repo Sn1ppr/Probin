@@ -29,10 +29,10 @@ import { supabase } from "../supabase/supabaseClient";
 
 function SettingsPaste() {
   const [visibility, setVisibility] = useState(
-    localStorage.getItem("visibility") ?? "no"
+    localStorage.getItem("visibility") ?? "private"
   );
   const [syntax, setSyntax] = useState(
-    localStorage.getItem("syntax") ?? "private"
+    localStorage.getItem("syntax") ?? "no"
   );
   const [title, setTitle] = useState("Untitled Paste");
   const [password, setPassword] = useState("");
@@ -72,7 +72,7 @@ function SettingsPaste() {
           onClick: () => console.log("Undo"),
         },
       });
-  
+
       console.log("Erreur lors de l'insertion des données:", error.message);
     } else {
       window.location.href = `/${id}`;
