@@ -35,13 +35,14 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 // Toast
 import { toast } from "sonner";
 
+// Analytics
+import { Analytics } from "@vercel/analytics/react";
+
 function App() {
   const [visibility, setVisibility] = useState(
     localStorage.getItem("visibility") ?? "private"
   );
-  const [syntax, setSyntax] = useState(
-    localStorage.getItem("syntax") ?? "no"
-  );
+  const [syntax, setSyntax] = useState(localStorage.getItem("syntax") ?? "no");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -68,6 +69,7 @@ function App() {
 
   return (
     <>
+      <Analytics />
       <Toaster
         toastOptions={{
           className: "text-left",

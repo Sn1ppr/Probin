@@ -30,6 +30,9 @@ import AceEditor from "react-ace";
 // Supabase
 import { supabase } from "../supabase/supabaseClient";
 
+// Analytics
+import { Analytics } from "@vercel/analytics/react"
+
 function ViewPaste() {
   const [pastes, setPastes] = useState<any[] | null>(null);
   const [pasteId, setPasteId] = useState<string>("");
@@ -80,6 +83,7 @@ function ViewPaste() {
   };
   return (
     <>
+    <Analytics/>
       <Toaster
         toastOptions={{
           className: "text-left z-50",
