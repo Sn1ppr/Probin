@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 // Components
 import { Input } from "@/components/ui/input";
@@ -35,15 +36,8 @@ import { Analytics } from "@vercel/analytics/react"
 
 function ViewPaste() {
   const [pastes, setPastes] = useState<any[] | null>(null);
-  const [pasteId, setPasteId] = useState<string>("");
+  const { pasteId } = useParams();
   const [, setCopied] = useState(false);
-
-  useEffect(() => {
-    const url = window.location.href;
-    const lastSlashIndex = url.lastIndexOf("/");
-    const extractedValue = url.substring(lastSlashIndex + 1);
-    setPasteId(extractedValue);
-  }, []);
 
   useEffect(() => {
     async function fetchData() {
