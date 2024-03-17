@@ -1,6 +1,5 @@
 import "/src/assets/css/styles.css";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 // Components
 import { Button } from "@/components/ui/button";
@@ -59,7 +58,14 @@ function App() {
     });
   };
 
-  const { pasteId } = useParams();
+  const [pasteId, setPasteId] = useState<string>("");
+
+  useEffect(() => {
+    const url = window.location.href;
+    const lastSlashIndex = url.lastIndexOf("/");
+    const extractedValue = url.substring(lastSlashIndex + 1);
+    setPasteId(extractedValue);
+  }, []);
 
   return (
     <>
