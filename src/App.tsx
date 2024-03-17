@@ -175,7 +175,7 @@ function App() {
         </div>
       </div>
       <div className="flex mt-10 text-left">
-        {pasteId == undefined ? <SettingsPaste /> : <ViewPaste />}
+        {pasteId == "" ? <SettingsPaste /> : <ViewPaste />}
       </div>
     </>
   );
